@@ -3,6 +3,7 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.js",
+  //entry: "./src/tickComponent.js",
   mode: "development",
   module: {
     rules: [
