@@ -3,6 +3,8 @@ import {hot} from "react-hot-loader";
 import "./App.css";
 import {Button} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.css';
+import axios from 'axios';
+
 
 /*class InputBox extends React.Component {
     render() {
@@ -21,6 +23,14 @@ class App extends React.Component {
     
     login() {
         console.log(this.state);
+        axios('./data/login.JSON')
+        .then((response) => {
+         console.log(response);
+         return response;
+       });
+//       .then((user) => {
+//         console.log(user.);
+//       });
     }
     
     validateUserName() {
