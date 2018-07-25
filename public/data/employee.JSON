@@ -1,0 +1,25 @@
+{
+"employees":[
+{
+"name":"aravinth",
+"empID": 1,
+"role": "engineer"
+},{
+"name":"reshmi",
+"empID": 2,
+"role": "engineer"
+},{
+"name":"lavanya",
+"empID": 3,
+"role": "engineer"
+},{
+"name":"udhay",
+"empID": 4,
+"role": "engineer"
+},{
+"name":"srinath",
+"empID": 5,
+"role": "QA"
+}
+]
+}
