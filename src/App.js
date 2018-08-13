@@ -1,62 +1,88 @@
 import React from "react";
-import {hot} from "react-hot-loader";
+import {
+    hot
+} from "react-hot-loader";
 import "./App.css";
-import {Button} from "react-bootstrap";
+import {
+    Button
+} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import ErrorDisplay from './ErrorDisplay'
 var userJSON;
-/*class InputBox extends React.Component {
-    render() {
-        return <input type={this.props.type} id={this.props.id} />
-    }
-}*/
 
 class App extends React.Component {
-    
+
     constructor(props) {
         super(props);
-        this.state = {name:'', password:'',error:false,errormessage: ''};
+        this.state = {
+            name: '',
+            password: '',
+            error: false,
+            errormessage: ''
+        };
         this.login = this.login.bind(this);
         this.triggerState = this.triggerState.bind(this);
     }
-    
+
     componentDidMount() {
         axios.get('/data/login.JSON')
-        .then((response) => {
-           userJSON = response.data;
-       });
+            .then((response) => {
+                userJSON = response.data;
+            });
+    }
+
+    login() {
+        let {name,password} = this.state;
+        let validUser = userJSON.users.find(function (user) {
+            return user.name == name && user.password == password;
+        });
+        if (validUser)
+            this.props.history.push('/home');
+        else
+            this.setState({
+                errorMessage: "Invalid credentials",
+                error: true
+            });
     }
     
-    login() {
-       let {name,password} = this.state;
-       let validUser = userJSON.users.find(function(user) {
-                return user.name == name && user.password == password;
-       });
-        if(validUser)
-            this.props.history.push('/home'); 
-        else
-            this.setState({errorMessage : "Invalid credentials",
-            error : true});
+    keyPress(e){
+      if(e.keyCode == 13){
+         this.login();
+         // put the login here
+      }
     }
-      
-    triggerState (key, event) {
+
+    triggerState(key, event) {
+        console.log(event);
         var stateObject = {};
         stateObject[key] = event.target.value
         this.setState(stateObject);
     }
-    
-  render(){
-    return(
-      <form className="App">
-        <input type="text" id="UserName" value={this.state.name} onChange={(event) => this.triggerState("name", event)}/><br/>
-        <input type="password" id="Password" value= {this.state.password} onChange={(event) => this.triggerState("password", event)}/><br/>
-        <Button bsStyle="primary" onClick={this.login}>SUBMIT</Button><br/>
-        <ErrorDisplay error={this.state.error} message={this.state.errorMessage}/>
-      </form>
-    );
-  }
+
+    render() {
+        return ( 
+            <div className="full-height login-wall green">
+				<h1 align="center">React MVP</h1> 
+				<div className="row ">
+					<form className = "App offset-sm-5" >
+						<div className="form-group">
+							<label htmlFor="UserName">Name:</label>
+							<input type="text" className="form-control" value = {this.state.name} id="UserName" onChange = {(event) => this.triggerState("name", event)}/>
+						</div>
+
+						<div className="form-group">
+						  <label htmlFor="Password">Password:</label>
+						  <input type="password" className="form-control" value = {this.state.password} onKeyDown={(event) => this.keyPress(event)} id="Password" onChange = {(event) => this.triggerState("password", event)}/>
+						</div>
+						<Button bsStyle = "primary" className = "offset-sm-4"
+						onClick = {this.login} > SUBMIT < /Button><br/ >
+						<ErrorDisplay error = {this.state.error} message = {this.state.errorMessage}/> 
+					</form>
+				</div>
+			</div>
+        );
+    }
 }
 
-export const a =20;
 export default hot(module)(App);
